@@ -1,0 +1,23 @@
+Started by user anonymous
+[workspace] $ mozmill -t /Users/adam/Documents/projects/main/bt/qaauto/windmill/spp/test_petshop
+Traceback (most recent call last):
+  File "/usr/local/bin/mozmill", line 8, in <module>
+    load_entry_point('mozmill==1.2', 'console_scripts', 'mozmill')()
+  File "/Users/adam/Documents/projects/mozmill/mozmill/__init__.py", line 403, in cli
+    CLI().run()
+  File "/Users/adam/Documents/projects/mozmill/mozmill/__init__.py", line 348, in run
+    m.start(runner=runner, profile=runner.profile)
+  File "/Users/adam/Documents/projects/mozmill/mozmill/__init__.py", line 107, in start
+    self.back_channel, self.bridge = jsbridge.wait_and_create_network("127.0.0.1", self.jsbridge_port)
+  File "/Library/Python/2.6/site-packages/jsbridge-2.1-py2.6.egg/jsbridge/__init__.py", line 69, in wait_and_create_network
+    back_channel, bridge = create_network(host, port)
+  File "/Library/Python/2.6/site-packages/jsbridge-2.1-py2.6.egg/jsbridge/network.py", line 268, in create_network
+    back_channel = BackChannel(hostname, port)
+  File "/Library/Python/2.6/site-packages/jsbridge-2.1-py2.6.egg/jsbridge/network.py", line 235, in __init__
+    super(BackChannel, self).__init__(*args, **kwargs)
+  File "/Library/Python/2.6/site-packages/jsbridge-2.1-py2.6.egg/jsbridge/network.py", line 167, in __init__
+    self.connect(args)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.6/lib/python2.6/asyncore.py", line 334, in connect
+socket.error: [Errno 61] ECONNREFUSED
+Process leaked file descriptors. See http://hudson.gotdns.com/wiki/display/HUDSON/Spawning+processes+from+build for more information
+Finished: UNSTABLE

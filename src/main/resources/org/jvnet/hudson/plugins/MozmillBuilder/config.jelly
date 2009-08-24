@@ -1,0 +1,91 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <!--
+    This jelly script is used for per-project configuration.
+
+    See global.jelly for a general discussion about jelly script.
+  -->
+
+
+  <f:entry title="Tests" field="tests" description="Path to Mozmill tests">
+    <!--
+      Creates a text field that shows the value of the "name" property.
+      When submitted, it will be passed to the corresponding constructor parameter.
+    -->
+
+    <f:textbox field="tests"/>
+
+  </f:entry>
+
+  <f:advanced>
+       <f:entry title="Wrapper" field="wrapper" description="Use a wrapper to run mozmill">
+        <!--
+          Creates a text field that shows the value of the "name" property.
+          When submitted, it will be passed to the corresponding constructor parameter.
+        -->
+
+        <f:textbox field="wrapper"/>
+      </f:entry>
+
+      <f:entry title="Logfile" field="logfile" description="Write output to logfile">
+        <!--
+          Creates a text field that shows the value of the "name" property.
+          When submitted, it will be passed to the corresponding constructor parameter.
+        -->
+
+        <f:textbox field="logfile"/>
+      </f:entry>
+
+      <f:entry title="Port" field="port" description="jsBridge port">
+        <!--
+          Creates a text field that shows the value of the "name" property.
+          When submitted, it will be passed to the corresponding constructor parameter.
+        -->
+
+        <f:textbox field="port"/>
+
+      </f:entry>
+
+      <f:entry title="Show All" field="showall" description="Show all output">
+
+            <f:checkbox name="showall" checked="${instance.showall}" />
+      </f:entry>
+
+      <f:entry title="Show Errors" field="showerrors" description="Show all errors">
+
+            <f:checkbox name="showerrors" checked="${instance.showerrors}" />
+      </f:entry>
+
+<!--      <f:advanced>
+
+      <f:entry title="Binary" field="binary" description="Alt. Firefox binary">
+        
+          Creates a text field that shows the value of the "name" property.
+          When submitted, it will be passed to the corresponding constructor parameter.
+        
+
+        <f:textbox field="binary" />
+      </f:entry>
+
+      <f:entry title="Default Profile" field="defaultProfile" description="Default FF profile">
+        
+          Creates a text field that shows the value of the "name" property.
+          When submitted, it will be passed to the corresponding constructor parameter.
+        
+
+        <f:textbox field="defaultProfile" />
+      </f:entry>
+
+       <f:entry title="Profile" field="profile" description="Use this profile instead">
+        
+          Creates a text field that shows the value of the "name" property.
+          When submitted, it will be passed to the corresponding constructor parameter.
+        
+
+        <f:textbox field="profile" />
+      </f:entry>
+
+      </f:advanced>-->
+
+  </f:advanced>
+
+</j:jelly>
