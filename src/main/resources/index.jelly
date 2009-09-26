@@ -4,5 +4,5 @@
   Since we don't really have anything dynamic here, let's just use static HTML. 
 -->
 <div>
-    This plugin allows you to run configure and run Mozmill Functional tests.
+    This plugin allows you to run Mozmill Functional tests.
 </div>
