@@ -1,8 +1,9 @@
 package org.jvnet.hudson.plugins;
 import hudson.Launcher;
 import hudson.Extension;
+import hudson.Util;
+import hudson.model.AbstractBuild;
 import hudson.util.FormValidation;
-import hudson.model.Build;
 import hudson.model.BuildListener;
 import hudson.model.AbstractProject;
 import hudson.tasks.Builder;
@@ -29,10 +30,8 @@ import java.util.Map;
  * to remember the configuration.
  *
  * <p>
- * When a build is performed, the {@link #perform(Build, Launcher, BuildListener)} method
+ * When a build is performed, the {@link #perform(AbstractBuild, Launcher, BuildListener)} method
  * will be invoked. 
- *
- * @author Kohsuke Kawaguchi
  */
 public class MozmillBuilder extends Builder {
 
@@ -111,7 +110,8 @@ public class MozmillBuilder extends Builder {
         return command;
     }
 
-    public boolean perform(Build build, Launcher launcher, BuildListener listener) throws IOException, InterruptedException {
+    @Override
+    public boolean perform(AbstractBuild<?,?> build, Launcher launcher, BuildListener listener) throws IOException, InterruptedException {
         // this is where you 'build' the project
         // since this is a dummy, we just say 'hello world' and call that a build
         int exitCode = 0;
@@ -120,12 +120,12 @@ public class MozmillBuilder extends Builder {
             listener.error("Mozmill cannot run without any tests specified.");
         }
         else {
-            Map<String,String> envVars = build.getEnvVars();
+            Map<String,String> envVars = build.getEnvironment(listener);
             envVars.putAll(build.getBuildVariables());
             
             String cmd = this.buildCommand();
 
-            exitCode = launcher.launch(cmd, envVars, listener.getLogger(), build.getProject().getWorkspace()).join();
+            exitCode = launcher.launch().cmds(Util.tokenize(cmd)).envs(envVars).stdout(listener).pwd(build.getWorkspace()).join();
         }
 
         if (exitCode != 0){
@@ -138,6 +138,7 @@ public class MozmillBuilder extends Builder {
     // overrided for better type safety.
     // if your plugin doesn't really define any property on Descriptor,
     // you don't have to do this.
+    @Override
     public DescriptorImpl getDescriptor() {
         return (DescriptorImpl)super.getDescriptor();
     }
@@ -152,14 +153,7 @@ public class MozmillBuilder extends Builder {
      */
     @Extension // this marker indicates Hudson that this is an implementation of an extension point.
     public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
-        /**
-         * To persist global configuration information,
-         * simply store it in a field and call save().
-         *
-         * <p>
-         * If you don't want fields to be persisted, use <tt>transient</tt>.
-         */
-        private boolean useFrench;
+        @Deprecated private transient boolean useFrench;
 
         /**
          * Performs on-the-fly validation of the form field 'name'.
@@ -177,6 +171,7 @@ public class MozmillBuilder extends Builder {
             return FormValidation.ok();
         }
 
+        @Override
         public boolean isApplicable(Class<? extends AbstractProject> aClass) {
             // indicates that this builder can be used with all kinds of project types 
             return true;
@@ -185,23 +180,17 @@ public class MozmillBuilder extends Builder {
         /**
          * This human readable name is used in the configuration screen.
          */
+        @Override
         public String getDisplayName() {
             return "Mozmill Test";
         }
 
+        @Override
         public boolean configure(StaplerRequest req, JSONObject o) throws FormException {
             // to persist global configuration information,
             // set that to properties and call save().
-            useFrench = o.getBoolean("useFrench");
             save();
             return super.configure(req,o);
-        }
-
-        /**
-         * This method returns true if the global configuration says we should speak French.
-         */
-        public boolean useFrench() {
-            return useFrench;
         }
     }
 }
