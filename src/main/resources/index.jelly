@@ -1,8 +1,4 @@
-<!--
-  This view is used to render the plugin list page.
-
-  Since we don't really have anything dynamic here, let's just use static HTML. 
--->
 <div>
-    This plugin allows you to run Mozmill Functional tests.
+  This plugin allows you to run Mozmill Functional tests for Gecko based applications
+  such as Firefox and Thunderbird.
 </div>
